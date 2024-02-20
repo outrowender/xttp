@@ -9,10 +9,10 @@ import SwiftUI
 import SwiftData
 
 @main
-struct xttpApp: App {
+struct XttpApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            ItemRequestModel.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,8 +25,10 @@ struct xttpApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
         }
         .modelContainer(sharedModelContainer)
+        .windowToolbarStyle(UnifiedWindowToolbarStyle(showsTitle: false))
+        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
