@@ -1,6 +1,6 @@
 //
-//  XttpCore.swift
-//  xttp_async
+//  HttpCore.swift
+//  xttp
 //
 //  Created by Wender on 12/02/24.
 //
@@ -13,7 +13,7 @@ public protocol XttpCoreProtocol {
 }
 
 // MARK: Implementation
-public struct XttpCore: XttpCoreProtocol {
+public struct HttpCore: XttpCoreProtocol {
     private let session = URLSession.shared
     
     public init(){}

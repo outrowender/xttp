@@ -8,31 +8,45 @@
 import SwiftUI
 
 struct HeadersView: View {
+    @Bindable var model: ItemRequestModel
     @State private var address: String = ""
 
     var body: some View {
         VStack {
-            HStack {
-                TextField("key", text: $address)
-                               .textFieldStyle(PlainTextFieldStyle())
-                               .padding(.all, 8)
-                               .background(.clear)
+//            List {
+                ForEach($model.headers) { header in
+                    HStack {
+                        TextField("key", text: header.key)
+                                       .textFieldStyle(PlainTextFieldStyle())
+                                       .padding(.all, 8)
+                                       .background(.clear)
+                        
+                        TextField("value", text: header.value)
+                                       .textFieldStyle(PlainTextFieldStyle())
+                                       .padding(.all, 8)
+                                       .background(.clear)
+                        
+                        Button {
+                            model.headers.removeAll { $0.id == header.id }
+                        } label: {
+                            Image(systemName: "minus.circle.fill")
+                        }.buttonStyle(.borderless)
+                    }
+                }
                 
-                TextField("value", text: $address)
-                               .textFieldStyle(PlainTextFieldStyle())
-                               .padding(.all, 8)
-                               .background(.clear)
-            }
-            
-            Button(action: {
-                print("add new header")
-            }) {
-                Label("New header", systemImage: "plus")
-            }.padding(8)
+                Button(action: {
+                    withAnimation {
+                        let newItem = HeaderRequestModel()
+                        model.headers.append(newItem)
+                    }
+                }) {
+                    Label("New header", systemImage: "plus")
+                }.padding(8)
+//            }
         }
     }
 }
 
 #Preview {
-    HeadersView()
+    HeadersView(model: .init(name: "new request", url: "https://google.com"))
 }

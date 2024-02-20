@@ -12,6 +12,10 @@ struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [ItemRequestModel]
     
+    @State private var showingAlert = false
+    
+    @State private var editingItem: ItemRequestModel = ItemRequestModel(name: "request")
+    
     var body: some View {
         NavigationView {
             List {
@@ -19,15 +23,24 @@ struct HomeView: View {
                     NavigationLink {
                         RequestView(item)
                     } label: {
-                        HStack {
+                        HStack(alignment: .center) {
                             Circle()
                                 .fill(VerbRequestModel(rawValue: item.type)?.colored() ?? .white)
                                 .frame(width: 8, height: 8)
                             Text(item.name)
                         }
+                        .contextMenu {
+                            Button("Rename") {
+                                editingItem = item
+                                showingAlert = true
+                            }
+                            
+                            Button("Delete") {
+                                deleteItem(item: item)
+                            }
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
                 
                 Button(action: addItem) {
                     Label("New request", systemImage: "sparkle")
@@ -35,6 +48,10 @@ struct HomeView: View {
             }
             .listStyle(SidebarListStyle())
             .navigationSplitViewColumnWidth(min: 220, ideal: 250)
+            .alert("New name", isPresented: $showingAlert) {
+                TextField("Name", text: $editingItem.name)
+                Button("OK") { }
+            }
 //            .toolbar {
 //                ToolbarItem(placement: .primaryAction) {
 //                    Button(action: addItem) {
@@ -52,11 +69,9 @@ struct HomeView: View {
         }
     }
     
-    private func deleteItems(offsets: IndexSet) {
+    private func deleteItem(item: ItemRequestModel) {
         withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+            modelContext.delete(item)
         }
     }
 }

@@ -14,9 +14,9 @@ class HeaderRequestModel {
     var key: String
     var value: String
     
-    init(name: String,
-         key: String,
-         value: String) {
+    init(name: String = .generate(with: 8),
+         key: String = "",
+         value: String = "") {
         self.name = name
         self.key = key
         self.value = value
