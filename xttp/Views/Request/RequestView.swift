@@ -23,13 +23,9 @@ struct RequestView: View {
                 HStack {
                     
                     Picker(selection: $viewModel.model.type, content: {
-                        Text("GET").tag(XttpRequestType.get.rawValue)
-                        Text("POST").tag(XttpRequestType.post.rawValue)
-                        Text("PUT").tag(XttpRequestType.put.rawValue)
-                        Text("PATCH").tag(XttpRequestType.patch.rawValue)
-                        Text("DELETE").tag(XttpRequestType.delete.rawValue)
-                        Text("OPTIONS").tag(XttpRequestType.options.rawValue)
-                        Text("HEAD").tag(XttpRequestType.head.rawValue)
+                        ForEach(XttpRequestType.allCases, id: \.rawValue) { type in
+                            Text(type.rawValue).tag(type)
+                        }
                     }, label: {})
                     .pickerStyle(.menu)
                     .frame(maxWidth: 100)
@@ -80,7 +76,6 @@ struct RequestView: View {
         }
         .toolbar(.hidden, for: .automatic)
     }
-    
     
 }
 

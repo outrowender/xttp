@@ -63,7 +63,7 @@ public struct XttpResponse<T> {
     public let content: T?
 }
 
-public enum XttpRequestType: String {
+public enum XttpRequestType: String, CaseIterable {
     case get = "GET"
     case post = "POST"
     case put = "PUT"
