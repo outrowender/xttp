@@ -25,7 +25,7 @@ struct XttpApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(modelContext: sharedModelContainer.mainContext)
         }
         .modelContainer(sharedModelContainer)
         .windowToolbarStyle(UnifiedWindowToolbarStyle(showsTitle: false))
