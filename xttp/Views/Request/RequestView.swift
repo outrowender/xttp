@@ -8,16 +8,11 @@
 import SwiftUI
 
 struct RequestView: View {
-    @Bindable var model: ItemRequestModel
     
-    @State private var address: String = ""
-    @State private var bodyContent: String = ""
-    @State private var contentType = 0
-    @State private var methodType: XttpRequestType = .get
-    @State private var result: String = ""
+    @State private var viewModel: ViewModel
     
-    init(_ model: ItemRequestModel) {
-        self.model = model
+    init(_ requestModel: ItemRequestModel) {
+        viewModel = ViewModel(model: requestModel)
     }
     
     var body: some View {
@@ -27,7 +22,7 @@ struct RequestView: View {
                 
                 HStack {
                     
-                    Picker(selection: $model.type, content: {
+                    Picker(selection: $viewModel.model.type, content: {
                         Text("GET").tag(XttpRequestType.get.rawValue)
                         Text("POST").tag(XttpRequestType.post.rawValue)
                         Text("PUT").tag(XttpRequestType.put.rawValue)
@@ -39,10 +34,10 @@ struct RequestView: View {
                     .pickerStyle(.menu)
                     .frame(maxWidth: 100)
                     
-                    TextField("URL", text: $model.url)
+                    TextField("URL", text: $viewModel.model.url)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    Button(action: runItem) {
+                    Button(action: viewModel.runItem) {
                         Label("Run", systemImage: "play.fill")
                     }
                     
@@ -50,21 +45,21 @@ struct RequestView: View {
                 .padding(.bottom, 8)
                 .padding(.horizontal, 16)
                 
-                Picker(selection: $contentType, content: {
+                Picker(selection: $viewModel.contentType, content: {
                     Text("Headers").tag(0)
                     Text("Body").tag(1)
                 }, label: {})
                 .pickerStyle(.segmented)
                 .padding(.horizontal, 16)
                 
-                if contentType == 0 {
-                    HeadersView(model: model)
+                if viewModel.contentType == 0 {
+                    HeadersView(model: viewModel.model)
                         .padding(.horizontal, 8)
                     Spacer()
                 }
                 
-                if contentType == 1 {
-                    TextEditor(text: $model.body)
+                if viewModel.contentType == 1 {
+                    TextEditor(text: $viewModel.model.body)
                         .font(.system(size: 13))
                         .padding(.top, 8)
                         .padding(.leading, 16)
@@ -74,7 +69,7 @@ struct RequestView: View {
             
             VStack {
                 ScrollView {
-                    if let result = model.lastResult {
+                    if let result = viewModel.model.lastResult {
                         
                         Text(result)
                             .font(.system(size: 13))
@@ -86,23 +81,7 @@ struct RequestView: View {
         .toolbar(.hidden, for: .automatic)
     }
     
-    func runItem() {
-        Task {
-            
-            do {
-                let request = try await HttpCore().request(
-                    XttpRequestType(rawValue: model.type)!,
-                    url: model.url)
-                
-                model.lastResult = request.raw ?? ""
-                print(model.lastResult ?? "nothing")
-            } catch (let e) {
-                print(e)
-            }
-            
-        }
-        
-    }
+    
 }
 
 #Preview {
