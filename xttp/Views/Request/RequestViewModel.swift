@@ -11,24 +11,9 @@ import SwiftUI
 extension RequestView {
     @Observable
     class ViewModel {
-        var address: String
-        var bodyContent: String
         var contentType = 0
-        var methodType: XttpRequestType
-        var result: String
         
-        var model: ItemRequestModel
-        
-        init(model: ItemRequestModel) {
-            self.model = model
-            
-            address = model.url
-            bodyContent = model.body
-            result = model.lastResult ?? ""
-            methodType = XttpRequestType(rawValue: model.type) ?? .get
-        }
-        
-        func runItem() {
+        func runItem(model: ItemRequestModel) {
             Task {
                 do {
                     let request = try await HttpCore().request(

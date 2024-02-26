@@ -9,20 +9,21 @@ import SwiftUI
 
 struct RequestView: View {
     
-    @State private var viewModel: ViewModel
+    @State private var viewModel: ViewModel = ViewModel()
+    @Binding var model: ItemRequestModel
     
-    init(_ requestModel: ItemRequestModel) {
-        viewModel = ViewModel(model: requestModel)
-    }
+//    init() {
+//        viewModel = ViewModel()
+//    }
     
     var body: some View {
         
         HStack {
-            VStack {
+            List {
                 
                 HStack {
                     
-                    Picker(selection: $viewModel.model.type, content: {
+                    Picker(selection: $model.type, content: {
                         ForEach(XttpRequestType.allCases, id: \.rawValue) { type in
                             Text(type.rawValue).tag(type)
                         }
@@ -30,16 +31,17 @@ struct RequestView: View {
                     .pickerStyle(.menu)
                     .frame(maxWidth: 100)
                     
-                    TextField("URL", text: $viewModel.model.url)
+                    TextField("URL", text: $model.url)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    Button(action: viewModel.runItem) {
+                    Button(action: {
+                        viewModel.runItem(model: model)
+                    }) {
                         Label("Run", systemImage: "play.fill")
                     }
                     
                 }
-                .padding(.bottom, 8)
-                .padding(.horizontal, 16)
+                .contentMargins(16)
                 
                 Picker(selection: $viewModel.contentType, content: {
                     Text("Headers").tag(0)
@@ -49,13 +51,13 @@ struct RequestView: View {
                 .padding(.horizontal, 16)
                 
                 if viewModel.contentType == 0 {
-                    HeadersView(model: viewModel.model)
+                    HeadersView(model: model)
                         .padding(.horizontal, 8)
                     Spacer()
                 }
                 
                 if viewModel.contentType == 1 {
-                    TextEditor(text: $viewModel.model.body)
+                    TextEditor(text: $model.body)
                         .font(.system(size: 13))
                         .padding(.top, 8)
                         .padding(.leading, 16)
@@ -63,9 +65,14 @@ struct RequestView: View {
                 
             }
             
+            Rectangle()
+                .fill(.black)
+                .ignoresSafeArea()
+                .frame(width: 1)
+            
             VStack {
                 ScrollView {
-                    if let result = viewModel.model.lastResult {
+                    if let result = model.lastResult {
                         
                         Text(result)
                             .font(.system(size: 13))
@@ -73,12 +80,13 @@ struct RequestView: View {
                     }
                 }
             }
+            
         }
         .toolbar(.hidden, for: .automatic)
     }
     
 }
 
-#Preview {
-    RequestView(.init(name: "new request", url: "https://google.com"))
-}
+//#Preview {
+//    RequestView(model: .ini)
+//}

@@ -12,54 +12,102 @@ struct HomeView: View {
     
     @State private var viewModel: ViewModel
     
+    @EnvironmentObject var appModel: AppModel
+    
     init(modelContext: ModelContext) {
-         viewModel = ViewModel(modelContext: modelContext)
+        viewModel = ViewModel(modelContext: modelContext)
         _viewModel = State(initialValue: viewModel)
     }
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(viewModel.items) { item in
-                    NavigationLink {
-                        RequestView(item)
-                    } label: {
-                        HStack(alignment: .center) {
-                            Circle()
-                                .fill(VerbRequestModel(rawValue: item.type)?.colored() ?? .white) // TODO: this needs to improve
-                                .frame(width: 8, height: 8)
-                            Text(item.name)
-                        }
-                        .contextMenu {
-                            Button("Rename") {
-                                viewModel.editingItem = item
-                                viewModel.showingAlert = true
-                            }
+        
+        HStack(spacing: 0) {
+            
+            VStack {
+                
+                HStack { // TODO: fix this alignment
+                    Spacer()
+                    
+                    Button {
                             
-                            Button("Delete") {
-                                viewModel.deleteItem(item: item)
+                    } label: {
+                        Image(systemName: "play.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 15)
+                            .padding(5)
+                    }
+                    .buttonStyle(.accessoryBar)
+                    .padding(.horizontal, 10)
+                    
+                }
+                
+                List(selection: $viewModel.selectedItem) {
+                    
+                    Section(header: Text("My requests")) {
+                        
+                        ForEach(Array(viewModel.items.enumerated()), id: \.element) { index, item in
+                            
+                            HStack {
+                                Circle()
+                                    .fill(VerbRequestModel.colored(item.type))
+                                    .frame(width: 8, height: 8)
+                                
+                                Text(item.name)
+                                
+                                Spacer()
+                            }
+                            .tag(index)
+                            .contextMenu {
+                                Button("Rename") {
+                                    viewModel.editItem(item)
+                                }
+                                
+                                Button("Delete") {
+                                    viewModel.deleteItem(item)
+                                }
                             }
                         }
                     }
+                    
+                    
+                    Button(action: viewModel.addItem) {
+                        Label("New request", systemImage: "sparkle")
+                    }
+                    
                 }
-                
-                Button(action: viewModel.addItem) {
-                    Label("New request", systemImage: "sparkle")
-                }
+                .listStyle(SidebarListStyle())
             }
-            .listStyle(SidebarListStyle())
-            .navigationSplitViewColumnWidth(min: 220, ideal: 250)
-            .alert("New name", isPresented: $viewModel.showingAlert) {
-                TextField("Name", text: $viewModel.editingItem.name)
-                Button("OK") { }
+            .background(GlassEffect().ignoresSafeArea())
+            .frame(width: 200)
+            
+            Divider()
+                .ignoresSafeArea()
+            
+            if viewModel.items.count > 0 {
+                RequestView(model: .constant(viewModel.items[viewModel.selectedItem]))
+            } else {
+                Spacer()
             }
+        }
+        .listen(for: $appModel.addNewAction, action: {
+            viewModel.addItem()
+        })
+        .alert("New name", isPresented: $viewModel.showingAlert) {
+            TextField("Name", text: $viewModel.editingItem.name)
+            Button("OK") { }
         }
     }
     
 }
 
-// TODO: how to fix previews? Maybe mocked models for empty inits
-//#Preview {
-//    HomeView()
-//        .modelContainer(for: ItemRequestModel.self, inMemory: true)
-//}
+#Preview {
+    HomeView(
+        modelContext: .init(
+            try! .init(
+                for: ItemRequestModel.self,
+                configurations: .init(isStoredInMemoryOnly: true)
+            )
+        )
+    ).frame(width: 500)
+}

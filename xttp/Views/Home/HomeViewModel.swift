@@ -16,10 +16,13 @@ extension HomeView {
         
         var showingAlert = false
         var items: [ItemRequestModel] = []
+        var selectedItem: Int
+        
         var editingItem: ItemRequestModel = ItemRequestModel(name: "request")
         
         init(modelContext: ModelContext) {
-            self.modelContext = modelContext
+            _modelContext = modelContext
+            selectedItem = 0
             fetchData()
         }
         
@@ -42,7 +45,12 @@ extension HomeView {
             fetchData()
         }
         
-        func deleteItem(item: ItemRequestModel) {
+        func editItem(_ item: ItemRequestModel) {
+            editingItem = item
+            showingAlert = true
+        }
+        
+        func deleteItem(_ item: ItemRequestModel) {
             modelContext.delete(item)
             fetchData() // TODO: remove only visually
         }

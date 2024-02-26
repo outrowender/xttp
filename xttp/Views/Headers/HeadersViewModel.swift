@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 extension HeadersView {
     @Observable
@@ -22,6 +23,12 @@ extension HeadersView {
             let newItem = HeaderRequestModel()
             withAnimation {
                 model.headers.append(newItem)
+            }
+        }
+        
+        func removeItem(id: PersistentIdentifier) {
+            withAnimation {
+                model.headers.removeAll { $0.id == id }
             }
         }
         

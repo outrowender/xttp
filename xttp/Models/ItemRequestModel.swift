@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class ItemRequestModel {
@@ -43,4 +44,20 @@ public enum VerbRequestModel: String {
     case delete = "DELETE"
     case options = "OPTIONS"
     case head = "HEAD"
+    
+    static func colored(_ rawValue: String) -> Color {
+        let scheme: [VerbRequestModel: Color] = [
+            .get: .purple,
+            .post: .green,
+            .put: .orange,
+            .patch: .yellow,
+            .delete: .red,
+            .options: .blue,
+            .head: .blue
+        ]
+        
+        let value = VerbRequestModel(rawValue: rawValue) ?? .get
+        
+        return scheme[value] ?? .white
+    }
 }

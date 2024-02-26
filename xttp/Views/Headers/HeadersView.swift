@@ -30,7 +30,7 @@ struct HeadersView: View {
                         .background(.clear)
                     
                     Button {
-                        viewModel.model.headers.removeAll { $0.id == header.id }
+                        viewModel.removeItem(id: header.id)
                     } label: {
                         Image(systemName: "minus.circle.fill")
                     }.buttonStyle(.borderless)
