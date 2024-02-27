@@ -12,14 +12,10 @@ struct RequestView: View {
     @State private var viewModel: ViewModel = ViewModel()
     @Binding var model: ItemRequestModel
     
-//    init() {
-//        viewModel = ViewModel()
-//    }
-    
     var body: some View {
         
         HStack {
-            List {
+            VStack {
                 
                 HStack {
                     
@@ -37,56 +33,56 @@ struct RequestView: View {
                     Button(action: {
                         viewModel.runItem(model: model)
                     }) {
-                        Label("Run", systemImage: "play.fill")
+                        Label("Send", systemImage: "paperplane.fill")
                     }
                     
                 }
                 .contentMargins(16)
                 
                 Picker(selection: $viewModel.contentType, content: {
-                    Text("Headers").tag(0)
-                    Text("Body").tag(1)
+                    Text("Body").tag(0)
+                    Text("Headers").tag(1)
+                    Text("Query").tag(2)
                 }, label: {})
                 .pickerStyle(.segmented)
-                .padding(.horizontal, 16)
                 
                 if viewModel.contentType == 0 {
+                    TextEditor(text: $model.body)
+                        .font(.system(size: 13))
+                        .padding(.top, 8)
+                }
+                
+                if viewModel.contentType == 1 {
                     HeadersView(model: model)
                         .padding(.horizontal, 8)
                     Spacer()
                 }
                 
-                if viewModel.contentType == 1 {
-                    TextEditor(text: $model.body)
-                        .font(.system(size: 13))
-                        .padding(.top, 8)
-                        .padding(.leading, 16)
+                if viewModel.contentType == 2 {
+                    Spacer() // TODO
                 }
-                
             }
+            .padding(8)
             
-            Rectangle()
-                .fill(.black)
+            Divider()
                 .ignoresSafeArea()
-                .frame(width: 1)
             
             VStack {
                 ScrollView {
                     if let result = model.lastResult {
-                        
                         Text(result)
                             .font(.system(size: 13))
                             .padding(.top, 3)
                     }
                 }
             }
-            
         }
         .toolbar(.hidden, for: .automatic)
+        .ignoresSafeArea()
     }
     
 }
 
-//#Preview {
-//    RequestView(model: .ini)
-//}
+#Preview {
+    RequestView(model: .constant(.init(name: "req")))
+}

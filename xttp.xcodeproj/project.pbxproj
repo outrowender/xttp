@@ -23,6 +23,7 @@
 		2ABF6C1E2B8791BE00DCB41E /* HeadersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABF6C1D2B8791BE00DCB41E /* HeadersViewModel.swift */; };
 		2ABF6C3B2B88E88300DCB41E /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABF6C3A2B88E88300DCB41E /* View.swift */; };
 		2ABF6C3D2B8D534000DCB41E /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABF6C3C2B8D534000DCB41E /* AppModel.swift */; };
+		2ABF6C402B8E9D3F00DCB41E /* ViewEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABF6C3F2B8E9D3F00DCB41E /* ViewEffects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		2ABF6C1D2B8791BE00DCB41E /* HeadersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersViewModel.swift; sourceTree = "<group>"; };
 		2ABF6C3A2B88E88300DCB41E /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		2ABF6C3C2B8D534000DCB41E /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		2ABF6C3F2B8E9D3F00DCB41E /* ViewEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEffects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 		2A1F5D8A2B79B265002DAFC0 /* xttp */ = {
 			isa = PBXGroup;
 			children = (
+				2ABF6C3E2B8E9D3100DCB41E /* Shared */,
 				2ABF6C102B8417E200DCB41E /* Extensions */,
 				2ABF6C0B2B8412A300DCB41E /* Services */,
 				2A8F22F82B7B91E00033239C /* Views */,
@@ -196,6 +199,14 @@
 				2ABF6C1D2B8791BE00DCB41E /* HeadersViewModel.swift */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		2ABF6C3E2B8E9D3100DCB41E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				2ABF6C3F2B8E9D3F00DCB41E /* ViewEffects.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +326,7 @@
 				2ABF6C0F2B8417C200DCB41E /* HeaderRequestModel.swift in Sources */,
 				2ABF6C0D2B8412AE00DCB41E /* HttpCore.swift in Sources */,
 				2A1F5D8C2B79B265002DAFC0 /* XttpApp.swift in Sources */,
+				2ABF6C402B8E9D3F00DCB41E /* ViewEffects.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

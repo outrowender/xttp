@@ -25,22 +25,22 @@ struct HomeView: View {
             
             VStack {
                 
-                HStack { // TODO: fix this alignment
-                    Spacer()
-                    
-                    Button {
-                            
-                    } label: {
-                        Image(systemName: "play.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 15)
-                            .padding(5)
-                    }
-                    .buttonStyle(.accessoryBar)
-                    .padding(.horizontal, 10)
-                    
-                }
+//                HStack {
+//                    Spacer()
+//                    
+//                    Button {
+//                            
+//                    } label: {
+//                        Image(systemName: "play.fill")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(height: 15)
+//                            .padding(5)
+//                    }
+//                    .buttonStyle(.accessoryBar)
+//                    .padding(.horizontal, 10)
+//                    
+//                }
                 
                 List(selection: $viewModel.selectedItem) {
                     
@@ -58,21 +58,7 @@ struct HomeView: View {
                                 Spacer()
                             }
                             .tag(index)
-                            .contextMenu {
-                                Button("Rename") {
-                                    viewModel.editItem(item)
-                                }
-                                
-                                Button("Delete") {
-                                    viewModel.deleteItem(item)
-                                }
-                            }
                         }
-                    }
-                    
-                    
-                    Button(action: viewModel.addItem) {
-                        Label("New request", systemImage: "sparkle")
                     }
                     
                 }
@@ -90,9 +76,16 @@ struct HomeView: View {
                 Spacer()
             }
         }
-        .listen(for: $appModel.addNewAction, action: {
+        .listen(for: $appModel.addNewAction, action: { _, _ in
             viewModel.addItem()
         })
+        .listen(for: $appModel.renameAction, action: { _, _ in
+            viewModel.renameSelectedItem()
+        })
+        .listen(for: $appModel.deleteAction, action: { _, _ in
+            viewModel.deleteSelectedItem()
+        })
+        
         .alert("New name", isPresented: $viewModel.showingAlert) {
             TextField("Name", text: $viewModel.editingItem.name)
             Button("OK") { }
