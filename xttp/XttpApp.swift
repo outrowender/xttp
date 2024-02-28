@@ -72,8 +72,6 @@ struct XttpApp: App {
                 }
                 .keyboardShortcut(.return)
             }
-            
-            
         }
     }
 }

@@ -68,13 +68,24 @@ struct RequestView: View {
                 .ignoresSafeArea()
             
             VStack {
-                ScrollView {
-                    if let result = model.lastResult {
-                        Text(result)
+                if let result = viewModel.lastResult {
+                    
+                    Text("Status code")
+                    Text("\(result.statusCode)")
+                    
+                    Text("Time")
+                    Text("\(Int((result.time ?? 0) * 1000)) ms")
+                    
+                    Text("Size")
+                    Text("\(result.raw?.count ?? 0) b")
+                    
+                    ScrollView {
+                        Text(result.raw ?? "No content")
                             .font(.system(size: 13))
-                            .padding(.top, 3)
+                            .padding(8)
                     }
                 }
+                
             }
         }
         .toolbar(.hidden, for: .automatic)
