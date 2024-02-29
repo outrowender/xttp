@@ -75,8 +75,9 @@ struct RequestView: View {
                 } else if let result = model.lastResult {
                     HStack(spacing: 20) {
                         HStack {
-                            Text("OK")
                             Text("\(result.statusCode)")
+                                .foregroundStyle(result.statusCodeColored())
+                            Text(result.statusCodeNamed())
                         }
                         
                         HStack {
@@ -85,7 +86,7 @@ struct RequestView: View {
                         }
                         
                         HStack {
-                            Image(systemName: "ruler")
+                            Image(systemName: "doc")
                             Text("\(result.raw?.count ?? 0)b")
                         }
                     }
