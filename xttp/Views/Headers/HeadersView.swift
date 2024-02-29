@@ -16,7 +16,12 @@ struct HeadersView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            
+            Button(action: viewModel.addNewItem) {
+                Label("Add", systemImage: "plus")
+            }
+            
             ForEach($viewModel.model.headers) { header in
                 HStack {
                     TextField("key", text: header.key)
@@ -36,10 +41,6 @@ struct HeadersView: View {
                     }.buttonStyle(.borderless)
                 }
             }
-            
-            Button(action: viewModel.addNewItem) {
-                Label("New header", systemImage: "plus")
-            }.padding(8)
         }
     }
 }

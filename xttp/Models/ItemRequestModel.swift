@@ -5,7 +5,6 @@
 //  Created by Wender on 11/02/24.
 //
 
-import Foundation
 import SwiftData
 import SwiftUI
 
@@ -17,7 +16,7 @@ final class ItemRequestModel {
     var type: String
     var headers: [HeaderRequestModel]
     var body: String
-    var lastResult: String?
+    var lastResult: RequestResultModel?
     
     init(timestamp: Date = Date(),
          name: String,
@@ -25,7 +24,7 @@ final class ItemRequestModel {
          type: String = VerbRequestModel.get.rawValue,
          headers: [HeaderRequestModel] = [],
          body: String = "",
-         lastResult: String? = nil) {
+         lastResult: RequestResultModel? = nil) {
         self.timestamp = timestamp
         self.name = name
         self.url = url

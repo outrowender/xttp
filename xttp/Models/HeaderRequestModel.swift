@@ -5,7 +5,6 @@
 //  Created by Wender on 19/02/24.
 //
 
-import Foundation
 import SwiftData
 
 @Model

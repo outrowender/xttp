@@ -14,11 +14,9 @@ struct RequestView: View {
     
     var body: some View {
         
-        HStack {
+        HStack(spacing: 0) {
             VStack {
-                
                 HStack {
-                    
                     Picker(selection: $model.type, content: {
                         ForEach(XttpRequestType.allCases, id: \.rawValue) { type in
                             Text(type.rawValue).tag(type)
@@ -35,7 +33,8 @@ struct RequestView: View {
                     }) {
                         Label("Send", systemImage: "paperplane.fill")
                     }
-                    
+                    .buttonStyle(.borderedProminent)
+                    .tint(.accentColor)
                 }
                 .contentMargins(16)
                 
@@ -54,7 +53,6 @@ struct RequestView: View {
                 
                 if viewModel.contentType == 1 {
                     HeadersView(model: model)
-                        .padding(.horizontal, 8)
                     Spacer()
                 }
                 
@@ -67,26 +65,47 @@ struct RequestView: View {
             Divider()
                 .ignoresSafeArea()
             
-            VStack {
-                if let result = viewModel.lastResult {
+            VStack(alignment: .leading) {
+                
+                if viewModel.isLoading {
+                    HStack {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                    }
+                } else if let result = model.lastResult {
+                    HStack(spacing: 20) {
+                        HStack {
+                            Text("OK")
+                            Text("\(result.statusCode)")
+                        }
+                        
+                        HStack {
+                            Image(systemName: "stopwatch")
+                            Text("\(Int((result.time ?? 0) * 1000))ms")
+                        }
+                        
+                        HStack {
+                            Image(systemName: "ruler")
+                            Text("\(result.raw?.count ?? 0)b")
+                        }
+                    }
                     
-                    Text("Status code")
-                    Text("\(result.statusCode)")
-                    
-                    Text("Time")
-                    Text("\(Int((result.time ?? 0) * 1000)) ms")
-                    
-                    Text("Size")
-                    Text("\(result.raw?.count ?? 0) b")
+                    Divider()
                     
                     ScrollView {
                         Text(result.raw ?? "No content")
                             .font(.system(size: 13))
                             .padding(8)
                     }
+                } else {
+                    HStack {
+                        Text("No response")
+                            .font(.title)
+                    }
                 }
-                
             }
+            .frame(width: 300)
+            .padding(8)
         }
         .toolbar(.hidden, for: .automatic)
         .ignoresSafeArea()

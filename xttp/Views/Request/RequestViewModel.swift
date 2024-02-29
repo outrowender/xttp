@@ -13,21 +13,24 @@ extension RequestView {
     class ViewModel {
         var contentType = 0
         
-        var lastResult: XttpResponse<String>?
+        var isLoading = false
         
         func runItem(model: ItemRequestModel) {
             Task {
+                isLoading = true
+                
                 let request = await HttpCore().request(
                     XttpRequestType(rawValue: model.type)!,
                     url: model.url)
                 
-                model.lastResult = request.raw ?? ""
+                let result = RequestResultModel(statusCode: request.statusCode,
+                                                errorCode: request.errorCode, 
+                                                raw: request.raw,
+                                                time: request.time)
+                model.lastResult = result
                 
-                lastResult = request
-                
+                isLoading = false
             }
-            
         }
-        
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: Protocol
 public protocol XttpCoreProtocol {
-    func request(_ type: XttpRequestType, url: String, headers: [String: String]?, cachePolicy: URLRequest.CachePolicy?) async throws -> XttpResponse<String>
+    func request(_ type: XttpRequestType, url: String, headers: [String: String]?, cachePolicy: URLRequest.CachePolicy?) async throws -> XttpResponse
 }
 
 // MARK: Implementation
@@ -21,10 +21,10 @@ public struct HttpCore: XttpCoreProtocol {
     public func request(_ type: XttpRequestType,
                         url: String,
                         headers: [String: String]? = [:],
-                        cachePolicy: URLRequest.CachePolicy? = .reloadIgnoringLocalAndRemoteCacheData) async -> XttpResponse<String> {
+                        cachePolicy: URLRequest.CachePolicy? = .reloadIgnoringLocalAndRemoteCacheData) async -> XttpResponse {
         
         guard let url = URL(string: url) else {
-            return XttpResponse<String>(statusCode: 0, raw: nil, content: nil, time: nil, errorCode: "Invalid URL")
+            return XttpResponse(statusCode: 0, raw: nil, time: nil, errorCode: "Invalid URL")
         }
         
         var request = URLRequest(url: url)
@@ -41,13 +41,13 @@ public struct HttpCore: XttpCoreProtocol {
         let snapshot = Date()
         
         guard let (data, response) = try? await session.data(for: request) else {
-            return XttpResponse<String>(statusCode: 0, raw: nil, content: nil, time: nil, errorCode: "Request failed")
+            return XttpResponse(statusCode: 0, raw: nil, time: nil, errorCode: "Request failed")
         }
         
         let timeDifference = Date().timeIntervalSince(snapshot)
         
         guard let httpResponse = response as? HTTPURLResponse else {
-            return XttpResponse<String>(statusCode: 0, raw: nil, content: nil, time: timeDifference, errorCode: "Invalid response")
+            return XttpResponse(statusCode: 0, raw: nil, time: timeDifference, errorCode: "Invalid response")
         }
         
         let rawResponse = String(decoding: data, as: UTF8.self)
@@ -57,22 +57,23 @@ public struct HttpCore: XttpCoreProtocol {
 //        guard let bodyResponse = try? decoder.decode(String.self, from: data) else {
 //            return XttpResponse<String>(statusCode: httpResponse.statusCode, raw: rawResponse, content: nil, time: timeDifference, errorCode: "Can't parse to JSON") // TODO: check this for false positive JSON responses
 //        }
-        return XttpResponse<String>(statusCode: httpResponse.statusCode, raw: rawResponse, content: nil, time: timeDifference)
+        return XttpResponse(statusCode: httpResponse.statusCode, raw: rawResponse, time: timeDifference)
     }
 }
 
-public struct XttpResponse<T> {
+public struct XttpResponse {
     public let statusCode: Int
     public let errorCode: String?
     public let raw: String?
-    public let content: T?
     public let time: TimeInterval?
     
-    init(statusCode: Int, raw: String?, content: T?, time: TimeInterval? = nil, errorCode: String? = nil) {
+    init(statusCode: Int, 
+         raw: String?,
+         time: TimeInterval? = nil,
+         errorCode: String? = nil) {
         self.statusCode = statusCode
         self.errorCode = errorCode
         self.raw = raw
-        self.content = content
         self.time = time
     }
 }
