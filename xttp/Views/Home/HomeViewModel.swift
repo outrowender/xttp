@@ -40,7 +40,11 @@ extension HomeView {
         }
         
         func addItem() {
-            let newItem = ItemRequestModel(name: "New request")
+            let newItem = ItemRequestModel(name: "New request", headers: [
+                .init(key: "Accept", required: true, value: "*/*"),
+                .init(key: "Accept-Encoding", required: true, value: "*"),
+                .init(key: "Accept-Language", required: true, value: "*"),
+            ])
             modelContext.insert(newItem)
             fetchData()
         }

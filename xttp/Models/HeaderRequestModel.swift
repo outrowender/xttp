@@ -5,19 +5,24 @@
 //  Created by Wender on 19/02/24.
 //
 
+import Foundation
 import SwiftData
 
 @Model
 class HeaderRequestModel {
-    var name: String
+    var timestamp: Date
     var key: String
+    var required: Bool
     var value: String
     
-    init(name: String = .generate(with: 8),
+    init(timestamp: Date = .now,
          key: String = "",
-         value: String = "") {
-        self.name = name
+         required: Bool = false,
+         value: String = ""
+    ) {
+        self.timestamp = timestamp
         self.key = key
+        self.required = required
         self.value = value
     }
 }

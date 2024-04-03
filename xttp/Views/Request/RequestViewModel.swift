@@ -19,9 +19,18 @@ extension RequestView {
             Task {
                 isLoading = true
                 
+                // TODO: move this somewhere
+                var headers: [String: String] = [:]
+                for header in model.headers {
+                    if header.key.isEmpty { continue }
+                    headers[header.key] = header.value
+                }
+                
                 let request = await HttpCore().request(
                     XttpRequestType(rawValue: model.type)!,
-                    url: model.url)
+                    url: model.url,
+                    headers: headers
+                )
                 
                 let result = RequestResultModel(statusCode: request.statusCode,
                                                 errorCode: request.errorCode, 

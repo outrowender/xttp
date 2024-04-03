@@ -39,21 +39,20 @@ struct RequestView: View {
                 .contentMargins(16)
                 
                 Picker(selection: $viewModel.contentType, content: {
-                    Text("Body").tag(0)
-                    Text("Headers").tag(1)
-                    Text("Query").tag(2)
+                    Text("Headers").tag(0)
+                    Text("Body").tag(1)
                 }, label: {})
                 .pickerStyle(.segmented)
                 
                 if viewModel.contentType == 0 {
-                    TextEditor(text: $model.body)
-                        .font(.system(size: 13))
-                        .padding(.top, 8)
+                    HeadersView(model: model)
+                    Spacer()
                 }
                 
                 if viewModel.contentType == 1 {
-                    HeadersView(model: model)
-                    Spacer()
+                    TextEditor(text: $model.body)
+                        .font(.system(size: 13))
+                        .padding(.top, 8)
                 }
                 
                 if viewModel.contentType == 2 {
@@ -93,11 +92,10 @@ struct RequestView: View {
                     
                     Divider()
                     
-                    ScrollView {
-                        Text(result.raw ?? "No content")
-                            .font(.system(size: 13))
-                            .padding(8)
-                    }
+                    TextEditor(text: .constant(result.raw ?? "No content"))
+                        .font(.system(size: 13))
+                        .padding(.top, 8)
+                    
                 } else {
                     HStack {
                         Text("No response")

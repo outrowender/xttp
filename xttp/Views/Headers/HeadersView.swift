@@ -18,28 +18,38 @@ struct HeadersView: View {
     var body: some View {
         VStack(alignment: .leading) {
             
-            Button(action: viewModel.addNewItem) {
-                Label("Add", systemImage: "plus")
+            
+            
+            ForEach($viewModel.model.headers.sorted { $0.timestamp.wrappedValue < $1.timestamp.wrappedValue }) { header in
+                HStack {
+                    TextField("Name", text: header.key)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .background(.clear)
+                        .disabled(header.required.wrappedValue)
+                    
+                    TextField("Value", text: header.value)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .background(.clear)
+                    
+                        Button {
+                            viewModel.removeItem(id: header.id)
+                        } label: {
+                            Image(systemName: "minus.circle.fill")
+                        }
+                        .disabled(header.required.wrappedValue)
+                        .buttonStyle(.borderless)
+                    
+                }
             }
             
-            ForEach($viewModel.model.headers) { header in
-                HStack {
-                    TextField("key", text: header.key)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(.all, 8)
-                        .background(.clear)
-                    
-                    TextField("value", text: header.value)
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(.all, 8)
-                        .background(.clear)
-                    
-                    Button {
-                        viewModel.removeItem(id: header.id)
-                    } label: {
-                        Image(systemName: "minus.circle.fill")
-                    }.buttonStyle(.borderless)
+            HStack {
+                Spacer()
+                Button {
+                    viewModel.addNewItem()
+                } label: {
+                    Image(systemName: "plus.circle.fill")
                 }
+                .buttonStyle(.borderless)
             }
         }
     }

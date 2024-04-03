@@ -30,12 +30,10 @@ public struct HttpCore: XttpCoreProtocol {
         var request = URLRequest(url: url)
         request.httpMethod = type.rawValue
         
-//        if let cachePolicy = cachePolicy {
-//            request.cachePolicy = cachePolicy
-//        }
-        
         headers?.forEach {
-            request.setValue($1, forHTTPHeaderField: $0)
+            if !$0.isEmpty {
+                request.setValue($1, forHTTPHeaderField: $0)
+            }
         }
         
         let snapshot = Date()
