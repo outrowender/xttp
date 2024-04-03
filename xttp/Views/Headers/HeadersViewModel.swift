@@ -10,27 +10,16 @@ import SwiftUI
 import SwiftData
 
 extension HeadersView {
-    @Observable
-    class ViewModel {
-        var model: ItemRequestModel
-        var address: String = ""
-        
-        init(model: ItemRequestModel) {
-            self.model = model
+    func addNewItem() {
+        let newItem = HeaderRequestModel()
+        withAnimation {
+            self.model.append(newItem)
         }
-        
-        func addNewItem() {
-            let newItem = HeaderRequestModel()
-            withAnimation {
-                model.headers.append(newItem)
-            }
+    }
+    
+    func removeItem(id: UUID) {
+        withAnimation {
+            self.model.removeAll { $0.id == id }
         }
-        
-        func removeItem(id: PersistentIdentifier) {
-            withAnimation {
-                model.headers.removeAll { $0.id == id }
-            }
-        }
-        
     }
 }

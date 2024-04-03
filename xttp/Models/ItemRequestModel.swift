@@ -10,6 +10,7 @@ import SwiftUI
 
 @Model
 final class ItemRequestModel {
+    var id: UUID
     var timestamp: Date
     var name: String
     var url: String
@@ -18,21 +19,24 @@ final class ItemRequestModel {
     var body: String
     var lastResult: RequestResultModel?
     
-    init(timestamp: Date = Date(),
-         name: String,
-         url: String = "",
-         type: String = VerbRequestModel.get.rawValue,
-         headers: [HeaderRequestModel] = [],
-         body: String = "",
-         lastResult: RequestResultModel? = nil) {
-        self.timestamp = timestamp
-        self.name = name
-        self.url = url
-        self.type = type
-        self.headers = headers
-        self.body = body
-        self.lastResult = lastResult
-    }
+    init(
+        id: UUID = UUID(),
+        timestamp: Date = Date(),
+        name: String,
+        url: String = "",
+        type: String = VerbRequestModel.get.rawValue,
+        headers: [HeaderRequestModel] = [],
+        body: String = "",
+        lastResult: RequestResultModel? = nil) {
+            self.id = id
+            self.timestamp = timestamp
+            self.name = name
+            self.url = url
+            self.type = type
+            self.headers = headers
+            self.body = body
+            self.lastResult = lastResult
+        }
 }
 
 public enum VerbRequestModel: String {

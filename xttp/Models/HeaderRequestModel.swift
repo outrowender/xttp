@@ -10,16 +10,20 @@ import SwiftData
 
 @Model
 class HeaderRequestModel {
+    var id: UUID
     var timestamp: Date
     var key: String
     var required: Bool
     var value: String
     
-    init(timestamp: Date = .now,
-         key: String = "",
-         required: Bool = false,
-         value: String = ""
+    init(
+        id: UUID = UUID(),
+        timestamp: Date = .now,
+        key: String = "",
+        required: Bool = false,
+        value: String = ""
     ) {
+        self.id = id
         self.timestamp = timestamp
         self.key = key
         self.required = required

@@ -33,6 +33,7 @@ struct RequestView: View {
                     }) {
                         Label("Send", systemImage: "paperplane.fill")
                     }
+                    .disabled(viewModel.isLoading || $model.url.wrappedValue.isEmpty)
                     .buttonStyle(.borderedProminent)
                     .tint(.accentColor)
                 }
@@ -45,7 +46,7 @@ struct RequestView: View {
                 .pickerStyle(.segmented)
                 
                 if viewModel.contentType == 0 {
-                    HeadersView(model: model)
+                    HeadersView(model: $model.headers)
                     Spacer()
                 }
                 
@@ -113,5 +114,5 @@ struct RequestView: View {
 }
 
 #Preview {
-    RequestView(model: .constant(.init(name: "req")))
+    RequestView(model: .constant(.init(name: "request")))
 }

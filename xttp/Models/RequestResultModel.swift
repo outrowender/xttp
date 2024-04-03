@@ -11,20 +11,24 @@ import SwiftUI
 
 @Model
 class RequestResultModel {
+    var id: UUID
     var statusCode: Int
     var errorCode: String?
     var raw: String?
     var time: TimeInterval?
     
-    init(statusCode: Int,
-         errorCode: String? = nil,
-         raw: String? = nil,
-         time: TimeInterval? = nil) {
-        self.statusCode = statusCode
-        self.errorCode = errorCode
-        self.raw = raw
-        self.time = time
-    }
+    init(
+        id: UUID = UUID(),
+        statusCode: Int,
+        errorCode: String? = nil,
+        raw: String? = nil,
+        time: TimeInterval? = nil) {
+            self.id = id
+            self.statusCode = statusCode
+            self.errorCode = errorCode
+            self.raw = raw
+            self.time = time
+        }
     
     func statusCodeColored() -> Color {
         switch self.statusCode {
@@ -72,7 +76,7 @@ class RequestResultModel {
 }
 
 public enum StatusRequestModel: Int {
-
+    
     case ok = 200
     case created = 201
     case accepted = 202
@@ -94,7 +98,7 @@ public enum StatusRequestModel: Int {
     case notImplemented = 501
     case badGateway = 502
     case serviceUnavailable = 503
-
+    
     static func colored(_ rawValue: Int) -> Color {
         
         switch rawValue {

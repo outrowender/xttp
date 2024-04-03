@@ -49,14 +49,19 @@ extension HomeView {
             fetchData()
         }
         
-        func renameSelectedItem() {
-            let item = items[selectedItem]
+        func renameSelectedItem(item: Int? = nil) {
+            let item = items[item ?? selectedItem]
             editingItem = item
             showingAlert = true
         }
         
-        func deleteSelectedItem() {
-            let item = items[selectedItem]
+        func deleteSelectedItem(item: Int? = nil) {
+            let markedItem = item ?? selectedItem
+            
+            let item = items[markedItem]
+            if items.count == markedItem + 1 {
+                selectedItem = items.count - 2
+            }
             modelContext.delete(item)
             fetchData() // TODO: remove only visually
         }
