@@ -12,6 +12,8 @@ struct RequestView: View {
     @State private var viewModel: ViewModel = ViewModel()
     @Binding var model: ItemRequestModel
     
+    @EnvironmentObject var appModel: AppModel
+    
     var body: some View {
         
         HStack(spacing: 0) {
@@ -109,6 +111,12 @@ struct RequestView: View {
         }
         .toolbar(.hidden, for: .automatic)
         .ignoresSafeArea()
+        .listen(for: $appModel.runAction, action: { _, _ in
+            viewModel.runItem(model: model)
+        })
+        .listen(for: $appModel.cleanAction, action: { _, _ in
+            viewModel.cleanItem(model: model)
+        })
     }
     
 }

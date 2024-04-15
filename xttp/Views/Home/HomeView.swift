@@ -22,32 +22,10 @@ struct HomeView: View {
     var body: some View {
         
         HStack(spacing: 0) {
-            
             VStack {
-                
-                //                HStack {
-                //                    Spacer()
-                //
-                //                    Button {
-                //
-                //                    } label: {
-                //                        Image(systemName: "play.fill")
-                //                            .resizable()
-                //                            .aspectRatio(contentMode: .fit)
-                //                            .frame(height: 15)
-                //                            .padding(5)
-                //                    }
-                //                    .buttonStyle(.accessoryBar)
-                //                    .padding(.horizontal, 10)
-                //
-                //                }
-                
                 List(selection: $viewModel.selectedItem) {
-                    
                     Section(header: Text("My requests")) {
-                        
-                        ForEach(Array(viewModel.items.enumerated()), id: \.element) { index, item in
-                            
+                        ForEach(Array(viewModel.items.enumerated()), id: \.element.id) { index, item in
                             HStack { // TODO: use grid instead
                                 Text(item.type.prefix(4))
                                     .font(.system(size: 8))
@@ -78,11 +56,13 @@ struct HomeView: View {
                             .tag(index)
                         }
                     }
-                    
                 }
                 .listStyle(SidebarListStyle())
             }
-            .background(GlassEffect().ignoresSafeArea())
+            .background(
+                GlassEffect()
+                    .ignoresSafeArea()
+            )
             .frame(width: 200)
             .contextMenu {
                 Button {
@@ -110,7 +90,6 @@ struct HomeView: View {
         .listen(for: $appModel.deleteAction, action: { _, _ in
             viewModel.deleteSelectedItem()
         })
-        
         .alert("New name", isPresented: $viewModel.showingAlert) {
             TextField("Name", text: $viewModel.editingItem.name)
             Button("OK") { }

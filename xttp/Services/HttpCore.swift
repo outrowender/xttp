@@ -9,7 +9,11 @@ import Foundation
 
 // MARK: Protocol
 public protocol XttpCoreProtocol {
-    func request(_ type: XttpRequestType, url: String, headers: [String: String]?, cachePolicy: URLRequest.CachePolicy?) async throws -> XttpResponse
+    func request(_ type: XttpRequestType, 
+                 url: String,
+                 headers: [String: String]?,
+                 body: Data?,
+                 cachePolicy: URLRequest.CachePolicy?) async throws -> XttpResponse
 }
 
 // MARK: Implementation
@@ -21,6 +25,7 @@ public struct HttpCore: XttpCoreProtocol {
     public func request(_ type: XttpRequestType,
                         url: String,
                         headers: [String: String]? = [:],
+                        body: Data? = nil,
                         cachePolicy: URLRequest.CachePolicy? = .reloadIgnoringLocalAndRemoteCacheData) async -> XttpResponse {
         
         guard let url = URL(string: url) else {
@@ -29,6 +34,11 @@ public struct HttpCore: XttpCoreProtocol {
         
         var request = URLRequest(url: url)
         request.httpMethod = type.rawValue
+        request.httpBody = body
+        
+        if let cachePolicy {
+            request.cachePolicy = cachePolicy
+        }
         
         headers?.forEach {
             if !$0.isEmpty {
@@ -49,12 +59,6 @@ public struct HttpCore: XttpCoreProtocol {
         }
         
         let rawResponse = String(decoding: data, as: UTF8.self)
-        // TODO: check json response
-//        let decoder = JSONDecoder()
-        
-//        guard let bodyResponse = try? decoder.decode(String.self, from: data) else {
-//            return XttpResponse<String>(statusCode: httpResponse.statusCode, raw: rawResponse, content: nil, time: timeDifference, errorCode: "Can't parse to JSON") // TODO: check this for false positive JSON responses
-//        }
         return XttpResponse(statusCode: httpResponse.statusCode, raw: rawResponse, time: timeDifference)
     }
 }

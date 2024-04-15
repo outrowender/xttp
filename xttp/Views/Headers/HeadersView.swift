@@ -16,42 +16,43 @@ struct HeadersView: View {
             
             let sortedHeaders = $model.sorted { $0.timestamp.wrappedValue < $1.timestamp.wrappedValue }
 
-            ForEach(sortedHeaders, id: \.id) { header in
-                var disabled = false
+            ScrollView(showsIndicators: false) {
+                ForEach(sortedHeaders, id: \.id) { header in
+                    var disabled = false
+                    
+                    HStack {
+                        TextField("Name", text: header.key)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .background(.clear)
+                            .disabled(header.required.wrappedValue)
+                        
+                        TextField("Value", text: header.value)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .background(.clear)
+                        
+                            Button {
+                                if disabled { return }
+                                
+                                disabled = true
+                                self.removeItem(id: header.id)
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                            }
+                            // TODO: check why button wont disable
+                            .disabled(header.required.wrappedValue || disabled)
+                            .buttonStyle(.borderless)
+                    }
+                }
                 
                 HStack {
-                    
-                    TextField("Name", text: header.key)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .background(.clear)
-                        .disabled(header.required.wrappedValue)
-                    
-                    TextField("Value", text: header.value)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .background(.clear)
-                    
-                        Button {
-                            if disabled { return }
-                            
-                            disabled = true
-                            self.removeItem(id: header.id)
-                        } label: {
-                            Image(systemName: "minus.circle.fill")
-                        }
-                        // TODO: check why button wont disable
-                        .disabled(header.required.wrappedValue || disabled)
-                        .buttonStyle(.borderless)
+                    Spacer()
+                    Button {
+                        self.addNewItem()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                    }
+                    .buttonStyle(.borderless)
                 }
-            }
-            
-            HStack {
-                Spacer()
-                Button {
-                    self.addNewItem()
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                }
-                .buttonStyle(.borderless)
             }
         }
     }

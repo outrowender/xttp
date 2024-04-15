@@ -12,7 +12,6 @@ extension RequestView {
     @Observable
     class ViewModel {
         var contentType = 0
-        
         var isLoading = false
         
         func runItem(model: ItemRequestModel) {
@@ -26,20 +25,31 @@ extension RequestView {
                     headers[header.key] = header.value
                 }
                 
+                let body = Data(model.body.utf8)
+                
                 let request = await HttpCore().request(
                     XttpRequestType(rawValue: model.type)!,
                     url: model.url,
-                    headers: headers
+                    headers: headers,
+                    body: body
                 )
                 
                 let result = RequestResultModel(statusCode: request.statusCode,
                                                 errorCode: request.errorCode, 
                                                 raw: request.raw,
                                                 time: request.time)
-                model.lastResult = result
                 
-                isLoading = false
+                Task.detached { [weak self] in
+                    model.lastResult = result
+                    self?.isLoading = false
+                }
             }
+        }
+        
+        func cleanItem(model: ItemRequestModel) {
+            isLoading = true
+            model.lastResult = nil
+            isLoading = false
         }
     }
 }
