@@ -11,7 +11,6 @@
 		2A1F5D8E2B79B265002DAFC0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1F5D8D2B79B265002DAFC0 /* HomeView.swift */; };
 		2A1F5D902B79B265002DAFC0 /* ItemRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1F5D8F2B79B265002DAFC0 /* ItemRequestModel.swift */; };
 		2A1F5D922B79B266002DAFC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A1F5D912B79B266002DAFC0 /* Assets.xcassets */; };
-		2A1F5D952B79B266002DAFC0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A1F5D942B79B266002DAFC0 /* Preview Assets.xcassets */; };
 		2A1F5DA02B79B266002DAFC0 /* xttpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1F5D9F2B79B266002DAFC0 /* xttpTests.swift */; };
 		2A1F5DB92B79B28F002DAFC0 /* RequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1F5DB82B79B28F002DAFC0 /* RequestView.swift */; };
 		2A67B0182B840CAF008E25B1 /* HeadersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A67B0172B840CAF008E25B1 /* HeadersView.swift */; };
@@ -43,7 +42,6 @@
 		2A1F5D8D2B79B265002DAFC0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2A1F5D8F2B79B265002DAFC0 /* ItemRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRequestModel.swift; sourceTree = "<group>"; };
 		2A1F5D912B79B266002DAFC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2A1F5D942B79B266002DAFC0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2A1F5D962B79B266002DAFC0 /* xttp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = xttp.entitlements; sourceTree = "<group>"; };
 		2A1F5D9B2B79B266002DAFC0 /* xttpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xttpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A1F5D9F2B79B266002DAFC0 /* xttpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xttpTests.swift; sourceTree = "<group>"; };
@@ -114,17 +112,8 @@
 				2A1F5D912B79B266002DAFC0 /* Assets.xcassets */,
 				2A1F5D962B79B266002DAFC0 /* xttp.entitlements */,
 				2A8F22F92B7BB9040033239C /* Info.plist */,
-				2A1F5D932B79B266002DAFC0 /* Preview Content */,
 			);
 			path = xttp;
-			sourceTree = "<group>";
-		};
-		2A1F5D932B79B266002DAFC0 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				2A1F5D942B79B266002DAFC0 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		2A1F5D9E2B79B266002DAFC0 /* xttpTests */ = {
@@ -299,7 +288,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A1F5D952B79B266002DAFC0 /* Preview Assets.xcassets in Resources */,
 				2A1F5D922B79B266002DAFC0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,11 +466,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = xttp/xttp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"xttp/Preview Content\"";
 				DEVELOPMENT_TEAM = GLB476Z655;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -509,11 +497,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = xttp/xttp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"xttp/Preview Content\"";
 				DEVELOPMENT_TEAM = GLB476Z655;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
